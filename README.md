@@ -1,7 +1,7 @@
 # Master Bikes
 Pagina E-Commerce
 
-## Tienda online se bicicletas.
+## Tienda online de bicicletas.
 
 ## Tecnologias usadas:
 - NextJS
