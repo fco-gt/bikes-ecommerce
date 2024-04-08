@@ -10,9 +10,10 @@ import localFont from "next/font/local";
 
 import HeaderNav from "@/components/HeaderNav";
 
-const Biker = localFont({
+const biker = localFont({
   src: "../fonts/Biker.woff2",
   display: "swap",
+  variable: "--font-biker",
 });
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export default function RootLayout({
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-          Biker.className
+          biker.variable
         )}
       >
         <header>

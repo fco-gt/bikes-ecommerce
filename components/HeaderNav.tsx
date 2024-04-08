@@ -18,7 +18,7 @@ export default function HeaderNav() {
     <Navbar shouldHideOnScroll>
       <NavbarBrand>
         <Logo />
-        <a className="hidden sm:flex text-[29px] font-[Biker]" href="/">
+        <a className="hidden sm:flex text-[29px] font-biker" href="/">
           Master Bikes
         </a>
       </NavbarBrand>

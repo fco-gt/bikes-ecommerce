@@ -17,7 +17,7 @@ export default function Products() {
         <h3
           className={`${title({
             size: "lg",
-          })} font-[Biker] text-opacity`}
+          })} font-biker text-opacity`}
         >
           Productos
         </h3>
