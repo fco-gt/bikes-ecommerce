@@ -17,7 +17,7 @@ export default function Products() {
         <h3
           className={`${title({
             size: "lg",
-          })} biker text-opacity`}
+          })} font-[Biker] text-opacity`}
         >
           Productos
         </h3>
@@ -31,7 +31,10 @@ export default function Products() {
       </section>
 
       <section className="products mt-5">
-        <Card className="py-5 transition hover:scale-105 hover:brightness-125" isPressable>
+        <Card
+          className="py-5 transition hover:scale-105 hover:brightness-125"
+          isPressable
+        >
           <CardBody className="overflow-visible block h-full w-full py-2">
             <Image
               alt="Card Image"
