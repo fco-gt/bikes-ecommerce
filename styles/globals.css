@@ -6,13 +6,6 @@
   --link-hover-color: #26bcc6;
 }
 
-@font-face {
-  font-family: "Biker";
-  src: url("/fonts/biker.otf") format("opentype");
-  font-style: normal;
-  font-weight: normal;
-}
-
 body {
   padding: 0;
   margin: 0;

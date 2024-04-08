@@ -6,7 +6,14 @@ import { Providers } from "./providers";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
+import localFont from "next/font/local";
+
 import HeaderNav from "@/components/HeaderNav";
+
+const Biker = localFont({
+  src: "../fonts/Biker.woff2",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -39,7 +46,8 @@ export default function RootLayout({
       <body
         className={clsx(
           "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
+          Biker.className
         )}
       >
         <header>
