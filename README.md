@@ -1,11 +1,12 @@
-# FreyWeb
-Pagina web para Frey
+# Master Bikes
+Pagina E-Commerce
 
-## Pequeña web para la comunidad de Frey
+## Tienda online de bicicletas.
 
 ## Tecnologias usadas:
 - NextJS
 - NextUI
+- Embla
 - Frame Motion
 - React
 - Tailwind CSS
