@@ -35,10 +35,10 @@ export default function Products() {
           className="py-5 transition hover:scale-105 hover:brightness-125"
           isPressable
         >
-          <CardBody className="overflow-visible block h-full w-full py-2">
+          <CardBody className="overflow-visible h-full w-full py-2">
             <Image
               alt="Card Image"
-              className="h-full w-full rounded object-cover object-top"
+              className="h-full w-full rounded object-cover"
               src="/imgs/slider/bmx-1.png"
             />
           </CardBody>

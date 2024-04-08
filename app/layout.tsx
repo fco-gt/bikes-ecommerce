@@ -9,6 +9,7 @@ import clsx from "clsx";
 import localFont from "next/font/local";
 
 import HeaderNav from "@/components/HeaderNav";
+import Footer from "@/sections/main/layout/footer";
 
 const biker = localFont({
   src: "../fonts/Biker.woff2",
@@ -59,17 +60,7 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-5 flex-grow">
               {children}
             </main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                className="flex items-center gap-1 text-current"
-                title="Frey"
-              >
-                <span className="text-default-500">
-                  2024© Algunos derechos reservados
-                </span>
-                <p className="text-primary">Master Bikes</p>
-              </Link>
-            </footer>
+            <Footer />
           </div>
         </Providers>
       </body>

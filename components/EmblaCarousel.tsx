@@ -43,7 +43,7 @@ const EmblaCarousel = () => {
 
               <div className="flex img-container">
                 <h3
-                  className={`absolute ml-[3%] mt-[55%] sm:mt[19%] md:mt-[11%] block z-[-1] rotate-[calc(35deg)] text-center text-[95px] sm:text-[100px] md:text-[150px] text-[#26BCC6] underline-offset-8 transition sm:text-2xl md:text-5xl justify-center font-biker`}
+                  className={`absolute ml-[5%] mt-[55%] sm:mt[19%] md:mt-[11%] block z-[-1] rotate-[calc(35deg)] text-center text-[95px] sm:text-[100px] md:text-[135px] text-[#26BCC6] underline-offset-8 transition sm:text-2xl md:text-5xl justify-center font-biker`}
                 >
                   {item.backText}
                 </h3>

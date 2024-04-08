@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import EmblaCarousel from "@/components/EmblaCarousel";
+
 import "@/styles/embla.css";
 
 import Products from "@/sections/main/products";
@@ -42,14 +43,14 @@ export default function Home() {
         <button
           onClick={scrollToTop}
           type="button"
-          className="fixed bottom-5 right-5 p-2 bg-[#26bcc6] border-zinc-700 border-2 text-[#252525] rounded-full focus:outline-none transition duration-500 ease-in-out transform opacity-100 scale-100 px-9"
+          className="fixed z-[9999999] bottom-5 right-5 p-2 bg-[#26bcc6] border-zinc-700 border-2 text-[#252525] rounded-full focus:outline-none transition duration-500 ease-in-out transform opacity-100 scale-100 px-9"
         >
           <FaArrowUp size={15} />
         </button>
       ) : (
         <button
           type="button"
-          className="fixed bottom-5 right-5 p-2 bg-[#26bcc6] text-white rounded-full focus:outline-none transition duration-500 ease-in-out transform opacity-0 scale-50"
+          className="fixed z-[9999999] bottom-5 right-5 p-2 bg-[#26bcc6] text-white rounded-full focus:outline-none transition duration-500 ease-in-out transform opacity-0 scale-50"
         >
           <FaArrowUp size={15} />
         </button>
