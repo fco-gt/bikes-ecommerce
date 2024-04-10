@@ -20,7 +20,7 @@ export default function PriceSlider() {
         maximumFractionDigits: 0,
       }}
       classNames={{
-        base: "max-w-md",
+        base: "max-w-md mr-5 md:mr-0",
         filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
         labelWrapper: "mb-2",
         label: "font-medium text-default-700 text-medium",

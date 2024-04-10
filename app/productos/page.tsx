@@ -21,7 +21,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 export default function Page() {
   return (
-    <div className="mt-9">
+    <div className="mt-0 md:mt-9">
       <section className="flex items-center justify-between">
         <div className="">
           <h3 className="text-[#26BCC6] font-semibold text-[35px]">
@@ -91,7 +91,7 @@ export default function Page() {
 
       <Divider className="mt-2" />
 
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <Sidebar />
         <ProductList />
       </div>

@@ -10,7 +10,7 @@ export default function ProductList() {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-5 mt-5 ml-[113px]">
+    <div className="grid grid-cols-2 gap-5 mt-5 md:ml-[113px]">
       {productos.map((product) => (
         <Card
           shadow="sm"
@@ -22,7 +22,7 @@ export default function ProductList() {
             <Image
               width="100%"
               alt={product.name}
-              className="w-[370px] object-contain h-[350px]"
+              className="w-[370px] object-contain h-[95px] md:h-[350px]"
               src={`/imgs/catalog/${product.id}.png`}
             ></Image>
           </CardBody>

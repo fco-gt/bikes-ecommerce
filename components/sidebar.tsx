@@ -14,7 +14,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 export default function Sidebar() {
   return (
-    <aside className="text-white w-64 min-h-screen mt-5 flex flex-col justify-start">
+    <aside className="text-white w-auto md:w-[35%] mt-5 flex flex-col mx-auto ">
       <PriceSlider />
 
       <div className="mt-9">
