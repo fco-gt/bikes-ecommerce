@@ -24,6 +24,11 @@ export default function HeaderNav() {
       </NavbarBrand>
       <NavbarContent className="flex gap-4" justify="end">
         <NavbarItem className="hidden sm:flex">
+          <Link color="foreground" href="/" className="link-hover">
+            Inicio
+          </Link>
+        </NavbarItem>
+        <NavbarItem className="hidden sm:flex">
           <Link color="foreground" href="/productos" className="link-hover">
             Productos
           </Link>
