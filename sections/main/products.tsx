@@ -23,7 +23,7 @@ export default function Products() {
         </h3>
         <p className="text-center">¿Que tipo de producto estás buscando?</p>
         <div className="text-[#26BCC6] flex items-center justify-center text-center">
-          <Link href="/catalogo" className="mr-2 link-hover">
+          <Link href="/productos" className="mr-2 link-hover">
             Ver más
           </Link>
           <FaLongArrowAltRight size={15} />
