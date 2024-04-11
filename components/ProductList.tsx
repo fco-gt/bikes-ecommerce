@@ -1,5 +1,6 @@
 import { productos } from "@/config/productos-catalogo";
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import Link from "next/link";
 
 export default function ProductList() {
   const formatNumberToCLP = (number: number): string => {
@@ -16,7 +17,8 @@ export default function ProductList() {
           shadow="sm"
           key={product.id}
           isPressable
-          onPress={() => console.log("Item pressed")}
+          as={Link}
+          href={`/productos/${product.id}`}
         >
           <CardBody className="overflow-visible p-5">
             <Image

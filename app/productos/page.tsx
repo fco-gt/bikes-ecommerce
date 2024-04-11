@@ -19,6 +19,7 @@ import ProductList from "@/components/ProductList";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaArrowUp } from "react-icons/fa";
+import { productos } from "@/config/productos-catalogo";
 
 export default function Page() {
   const [isVisible, setIsVisible] = useState(false);
@@ -53,7 +54,7 @@ export default function Page() {
           <h3 className="text-[#26BCC6] font-semibold text-[35px]">
             Bicicletas
           </h3>
-          <strong className="text-[25px]">99999 Resultados</strong>
+          <strong className="text-[25px]">{productos.length} Resultados</strong>
         </div>
 
         <div>

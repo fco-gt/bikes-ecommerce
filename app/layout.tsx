@@ -9,7 +9,7 @@ import clsx from "clsx";
 import localFont from "next/font/local";
 
 import HeaderNav from "@/components/HeaderNav";
-import Footer from "@/sections/main/layout/footer";
+import Footer from "@/sections/layout/footer";
 
 const biker = localFont({
   src: "../fonts/Biker.woff2",

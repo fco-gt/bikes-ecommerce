@@ -1,3 +1,5 @@
+export type Productos = typeof productos;
+
 export const productos = [
   {
     id: 1, // ID Imagen
