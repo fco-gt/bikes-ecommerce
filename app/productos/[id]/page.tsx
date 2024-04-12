@@ -27,6 +27,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [producto, setProducto] = useState<any | null>(null);
   const [selectedButton, setSelectedButton] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [count, setCount] = useState(0);
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
@@ -36,6 +37,9 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const productoEncontrado = productos.find((p) => p.id === idNumerico);
+    
+    console.log(productoEncontrado);
+    
 
     if (productoEncontrado) {
       setProducto(productoEncontrado);
@@ -133,11 +137,25 @@ export default function Page({ params }: { params: { id: string } }) {
 
           <div className="flex mt-5">
             <p className="flex flex-row items-center mr-5">
-              <Button isIconOnly variant="light" className="mr-2">
+              <Button
+                isIconOnly
+                variant="light"
+                className="mr-2"
+                onPress={() => {
+                  setCount(count + 1);
+                }}
+              >
                 <FaMinus />
               </Button>
-              {0}
-              <Button isIconOnly variant="light" className="ml-2">
+              {count}
+              <Button
+                isIconOnly
+                variant="light"
+                className="ml-2"
+                onPress={() => {
+                  setCount(count - 1);
+                }}
+              >
                 <FaPlus />
               </Button>
             </p>
