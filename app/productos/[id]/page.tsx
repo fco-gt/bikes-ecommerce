@@ -9,12 +9,10 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Image,
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-
 import PageBreadCrums from "@/components/breadCrums";
-import { productos } from "@/config/productos-catalogo";
-import Image from "next/image";
 
 import { FaExclamation, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
@@ -22,6 +20,9 @@ import { FaPlus } from "react-icons/fa";
 import { CiFacebook } from "react-icons/ci";
 import { CiInstagram } from "react-icons/ci";
 import { RiTwitterXLine } from "react-icons/ri";
+
+import bikes from "@/services/bikes";
+import { Bike } from "@/types/bikes";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [producto, setProducto] = useState<any | null>(null);
@@ -33,18 +34,14 @@ export default function Page({ params }: { params: { id: string } }) {
     setSelectedButton(buttonName);
   };
 
-  const idNumerico = parseInt(params.id);
+  const id = parseInt(params.id);
 
   useEffect(() => {
-    const productoEncontrado = productos.find((p) => p.id === idNumerico);
-    
-    console.log(productoEncontrado);
-    
-
-    if (productoEncontrado) {
-      setProducto(productoEncontrado);
-    }
-  }, [idNumerico]);
+    bikes.getBikes().then((bike) => {
+      const producto = bike.data.find((bike: Bike) => bike.id === id);
+      setProducto(producto);
+    });
+  }, [id]);
 
   const formatNumberToCLP = (number: number): string => {
     return new Intl.NumberFormat("es-CL", {
@@ -62,7 +59,7 @@ export default function Page({ params }: { params: { id: string } }) {
       <article className="mt-11 flex flex-col md:flex-row">
         <div className="flex-1">
           <Image
-            src={`/imgs/catalog/${idNumerico}.png`}
+            src={producto?.imageUrl}
             alt={producto?.name}
             width={500}
             height={500}

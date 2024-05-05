@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/icons/FreyLogo.jsx", "components/breadCrums.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/icons/FreyLogo.jsx", "components/breadCrums.tsx", "services/bikes.js"],
   "exclude": ["node_modules"]
 }
