@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const bikesUrl = "https://bikes-api.onrender.com/bikes";
+const bikesUrl = "https://bikes-api.onrender.com/api/bikes";
 
 const getBikes = () => {
   return axios.get(bikesUrl);
