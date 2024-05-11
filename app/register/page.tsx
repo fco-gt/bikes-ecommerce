@@ -1,17 +1,59 @@
-// src/Components/Login.js
+"use client";
+
 import { Button } from "@nextui-org/button";
+import { Image, Input } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo, useState } from "react";
+
+import { FaRegUser } from "react-icons/fa";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { MdOutlineMailOutline } from "react-icons/md";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 export default function Page() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState(""); // [1
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const validateName = (value: string) => value.length > 0;
+
+  const validateEmail = (value: string) =>
+    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const validatePassword = (value: string) =>
+    value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).{8,}$/);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const isInvalidName = useMemo(() => {
+    return validateName(name) ? false : true;
+  }, [name]);
+
+  const isInvalidMail = useMemo(() => {
+    if (email === "") return false;
+
+    return validateEmail(email) ? false : true;
+  }, [email]);
+
+  const isInvalidPassword = useMemo(() => {
+    if (password === "") return false;
+
+    return validatePassword(password) ? false : true;
+  }, [password]);
+
   return (
     <section className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
       <div className="md:w-1/3 max-w-sm">
-        <img
+        <Image
           src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
           alt="Sample image"
+          width={500}
+          height={500}
         />
       </div>
       <div className="md:w-1/3 max-w-sm">
@@ -41,20 +83,66 @@ export default function Page() {
             Registrate usando tu correo
           </p>
         </div>
-        <input
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded"
+        <Input
+          isRequired
+          value={name}
+          isInvalid={isInvalidName}
+          onValueChange={setName}
           type="text"
-          placeholder="Nombre"
+          label="Nombre"
+          color={isInvalidName ? "danger" : "success"}
+          className="max-w-full mb-5"
+          size="sm"
+          variant="underlined"
+          startContent={<FaRegUser size={19} />}
         />
-        <input
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-5"
+        <Input
           type="text"
-          placeholder="Correo"
+          label="Apellidos"
+          className="max-w-full mb-5"
+          size="sm"
+          variant="underlined"
         />
-        <input
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-5"
-          type="password"
-          placeholder="Contraseña"
+        <Input
+          isRequired
+          value={email}
+          isInvalid={isInvalidMail}
+          onValueChange={setEmail}
+          type="email"
+          label="Correo"
+          color={isInvalidMail ? "danger" : "success"}
+          className="max-w-full mb-5"
+          size="sm"
+          variant="underlined"
+          startContent={<MdOutlineMailOutline size={20} />}
+          errorMessage={isInvalidMail && "Correo invalido"}
+        />
+
+        <Input
+          isRequired
+          value={password}
+          isInvalid={isInvalidPassword}
+          onValueChange={setPassword}
+          type={showPassword ? "text" : "password"}
+          label="Contraseña"
+          color={isInvalidPassword ? "danger" : "success"}
+          className="max-w-full"
+          size="sm"
+          variant="underlined"
+          startContent={<RiLockPasswordLine size={20} />}
+          endContent={
+            <Button isIconOnly variant="light" onClick={toggleShowPassword}>
+              {showPassword ? (
+                <IoEyeOutline size={20} />
+              ) : (
+                <IoEyeOffOutline size={20} />
+              )}
+            </Button>
+          }
+          errorMessage={
+            isInvalidPassword &&
+            "La contraseña debe contener al menos 8 caracteres, una letra mayuscula, un numero y un caracter especial."
+          }
         />
         <div className="text-center md:text-left">
           <Button

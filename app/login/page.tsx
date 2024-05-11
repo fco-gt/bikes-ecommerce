@@ -1,17 +1,48 @@
-// src/Components/Login.js
+"use client";
+
+import React, { useMemo, useState } from "react";
 import { Button } from "@nextui-org/button";
+import { Image, Input, Checkbox } from "@nextui-org/react";
 import Link from "next/link";
-import React from "react";
+
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 export default function Page() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const validateEmail = (value: string) =>
+    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const isInvalidMail = useMemo(() => {
+    if (email === "") return false;
+
+    return validateEmail(email) ? false : true;
+  }, [email]);
+
+  const isInvalidPassword = useMemo(() => {
+    if (password === "") return false;
+
+    return true;
+  }, [password]);
+
   return (
     <section className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
       <div className="md:w-1/3 max-w-sm">
-        <img
+        <Image
           src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
           alt="Sample image"
+          width={500}
+          height={500}
         />
       </div>
       <div className="md:w-1/3 max-w-sm">
@@ -41,22 +72,51 @@ export default function Page() {
             Iniciar sesion con correo
           </p>
         </div>
-        <input
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded"
-          type="text"
-          placeholder="Correo"
+        <Input
+          isRequired
+          value={email}
+          isInvalid={isInvalidMail}
+          onValueChange={setEmail}
+          type="email"
+          label="Correo"
+          color={isInvalidMail ? "danger" : "success"}
+          className="max-w-full mb-5"
+          size="sm"
+          variant="underlined"
+          startContent={<MdOutlineMailOutline size={20} />}
+          errorMessage={isInvalidMail && "Correo invalido"}
         />
-        <input
-          className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4"
-          type="password"
-          placeholder="Contraseña"
+
+        <Input
+          isRequired
+          value={password}
+          // isInvalid={isInvalidPassword}
+          onValueChange={setPassword}
+          type={showPassword ? "text" : "password"}
+          label="Contraseña"
+          // color={isInvalidPassword ? "danger" : "success"}
+          className="max-w-full"
+          size="sm"
+          variant="underlined"
+          startContent={<RiLockPasswordLine size={20} />}
+          endContent={
+            <Button isIconOnly variant="light" onClick={toggleShowPassword}>
+              {showPassword ? (
+                <IoEyeOutline size={20} />
+              ) : (
+                <IoEyeOffOutline size={20} />
+              )}
+            </Button>
+          }
+          // errorMessage={isInvalidPassword && "Contraseña invalida"}
         />
-        <div className="mt-4 flex justify-between font-semibold text-sm">
-          <label className="flex text-slate-500 hover:text-slate-600 cursor-pointer">
-            <input className="mr-1" type="checkbox" />
-            <span>Recordarme</span>
-          </label>
-          <a className="text-[#238991]" href="#">
+        <div className="mt-4 flex justify-between font-semibold text-sm items-center">
+          <Checkbox color="primary">
+            <strong className="text-[#238991] font-normal">
+              Recordar contraseña
+            </strong>
+          </Checkbox>
+          <a className="text-[#238991] font-normal text-[15px]" href="#">
             Olvide mi contraseña
           </a>
         </div>
