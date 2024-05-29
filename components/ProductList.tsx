@@ -8,23 +8,13 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 
-import bikesApi from "@/services/bikes";
 import { Bike } from "@/types/bikes";
 
-export default function ProductList() {
-  const [bikes, setBikes] = useState<Bike[]>([]);
+export default function ProductList({ products }: { products: Bike[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  useEffect(() => {
-    bikesApi.getBikes().then((bikes) => {
-      console.log(bikes.data);
-
-      setBikes(bikes.data);
-    });
-  }, []);
-
-  const bikesToShow = bikes.slice(
+  const bikesToShow = products.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -66,7 +56,7 @@ export default function ProductList() {
       <div className="flex flex-row justify-end items-end mt-9">
         <Pagination
           showControls
-          total={Math.ceil(bikes.length / itemsPerPage)}
+          total={Math.ceil(products.length / itemsPerPage)}
           initialPage={1}
           onChange={(newPage) => setCurrentPage(newPage)}
         />

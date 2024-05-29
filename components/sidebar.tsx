@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useId, ChangeEvent } from "react";
 import PriceSlider from "@/components/PriceSlider";
 import {
   Button,
@@ -9,114 +10,115 @@ import {
   DropdownSection,
   DropdownTrigger,
   Checkbox,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useFilters } from "@/hooks/useFilter";
+
+import { Filters } from "@/types/filters";
 
 export default function Sidebar() {
+  const { setFilters } = useFilters();
+  const [type, setType] = useState("all");
+  const [size, setSize] = useState("all");
+  const [isStock, setStock] = useState(true);
+  const categoryId = useId();
+  const sizeId = useId();
+
+  const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!e.target.value) {
+      setType("all");
+      setFilters((prevState: Filters) => ({
+        ...prevState,
+        category: "all",
+      }));
+      return;
+    }
+
+    setType(e.target.value);
+    setFilters((prevState: Filters) => ({
+      ...prevState,
+      category: e.target.value,
+    }));
+  };
+
+  const handleSizeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (!e.target.value) {
+      setSize("all");
+      setFilters((prevState: Filters) => ({
+        ...prevState,
+        age: "all",
+      }));
+      return;
+    }
+
+    setSize(e.target.value);
+    setFilters((prevState: Filters) => ({
+      ...prevState,
+      age: e.target.value,
+    }));
+  };
+
+  const handleStockChange = (checked: boolean) => {
+    setStock(checked);
+    setFilters((prevState: Filters) => ({
+      ...prevState,
+      stock: checked,
+    }));
+  };
+
   return (
     <aside className="text-white w-auto md:w-[35%] mt-5 flex flex-col mx-auto ">
       <PriceSlider />
 
       <div className="mt-9">
-        <Dropdown
-          showArrow
-          radius="sm"
-          classNames={{
-            base: "before:bg-default-200",
-            content: "p-0 border-small border-divider bg-background",
-          }}
+        <Select
+          label="Tipo de bicicleta"
+          variant="bordered"
+          placeholder="Selecciona el tipo de bicicleta"
+          selectedKeys={[type]}
+          className="max-w-xs"
+          onChange={handleTypeChange}
+          id={categoryId}
         >
-          <DropdownTrigger>
-            <Button
-              variant="ghost"
-              disableRipple
-              endContent={<MdOutlineKeyboardArrowDown size={25} />}
-            >
-              Tipo de bicicleta
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Custom item styles"
-            className="p-3"
-            itemClasses={{
-              base: [
-                "rounded-md",
-                "text-default-500",
-                "transition-opacity",
-                "data-[hover=true]:text-foreground",
-                "data-[hover=true]:bg-default-100",
-                "dark:data-[hover=true]:bg-default-50",
-                "data-[selectable=true]:focus:bg-default-50",
-                "data-[pressed=true]:opacity-70",
-                "data-[focus-visible=true]:ring-default-500",
-              ],
-            }}
-            disallowEmptySelection
-          >
-            <DropdownSection aria-label="Iniciar Sessión">
-              <DropdownItem key="Tricicle">
-                <p>Triciclo</p>
-              </DropdownItem>
-              <DropdownItem key="Mountain">
-                <p>Bicicleta de montaña</p>
-              </DropdownItem>
-              <DropdownItem key="Travel">
-                <p>Bicleta de paseo</p>
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
+          <SelectItem key="bicicleta de montaña" value="mountain">
+            Montaña
+          </SelectItem>
+          <SelectItem key="bicicleta de paseo" value="road">
+            Paseo
+          </SelectItem>
+          <SelectItem key="urban" value="urban">
+            Urbana
+          </SelectItem>
+          <SelectItem key="electric" value="electric">
+            Eléctrica
+          </SelectItem>
+          <SelectItem key="tricicle" value="tricicle">
+            Triciclo
+          </SelectItem>
+        </Select>
       </div>
 
       <div className="mt-5">
-        <Dropdown
-          showArrow
-          radius="sm"
-          classNames={{
-            base: "before:bg-default-200",
-            content: "p-0 border-small border-divider bg-background",
-          }}
+        <Select
+          label="Tamaño"
+          variant="bordered"
+          placeholder="Selecciona el tamaño"
+          selectedKeys={[size]}
+          className="max-w-xs"
+          onChange={handleSizeChange}
+          id={sizeId}
         >
-          <DropdownTrigger>
-            <Button
-              variant="ghost"
-              disableRipple
-              endContent={<MdOutlineKeyboardArrowDown size={25} />}
-            >
-              Talla de bicicleta
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Custom item styles"
-            className="p-3"
-            itemClasses={{
-              base: [
-                "rounded-md",
-                "text-default-500",
-                "transition-opacity",
-                "data-[hover=true]:text-foreground",
-                "data-[hover=true]:bg-default-100",
-                "dark:data-[hover=true]:bg-default-50",
-                "data-[selectable=true]:focus:bg-default-50",
-                "data-[pressed=true]:opacity-70",
-                "data-[focus-visible=true]:ring-default-500",
-              ],
-            }}
-            disallowEmptySelection
-          >
-            <DropdownSection aria-label="Iniciar Sessión">
-              <DropdownItem key="Adult">
-                <p>Adulto</p>
-              </DropdownItem>
-              <DropdownItem key="Children">
-                <p>Niño</p>
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
+          <SelectItem key="adulto">Adulto</SelectItem>
+          <SelectItem key="niño">Niño</SelectItem>
+        </Select>
       </div>
 
-      <Checkbox defaultSelected className="mt-5">
+      <Checkbox
+        isSelected={isStock}
+        onValueChange={handleStockChange}
+        className="mt-5"
+      >
         Stock disponible
       </Checkbox>
     </aside>
