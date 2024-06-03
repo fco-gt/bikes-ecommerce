@@ -17,14 +17,14 @@ import PageBreadCrums from "@/components/breadCrums";
 import { FaExclamation, FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-import { CiFacebook } from "react-icons/ci";
-import { CiInstagram } from "react-icons/ci";
 import { RiTwitterXLine } from "react-icons/ri";
 
 import bikes from "@/services/bikes";
 import { Bike } from "@/types/bikes";
+import { useCart } from "@/hooks/useCart";
 
 export default function Page({ params }: { params: { id: string } }) {
+  const { addToCart } = useCart();
   const [producto, setProducto] = useState<any | null>(null);
   const [selectedButton, setSelectedButton] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -38,7 +38,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     bikes.getBikes().then((bike) => {
-      const producto = bike.data.find((bike: Bike) => bike.id === id);
+      const producto: Bike = bike.data.find((bike: Bike) => bike.id === id);
       setProducto(producto);
     });
   }, [id]);
@@ -65,7 +65,7 @@ export default function Page({ params }: { params: { id: string } }) {
             height={500}
           />
 
-          <p className="flex flex-row items-center gap-x-1">
+          <p className="flex flex-row items-center gap-x-1 mt-5">
             Compartir:{" "}
             <Button isIconOnly variant="light">
               <FaFacebook size={35} />
@@ -156,7 +156,14 @@ export default function Page({ params }: { params: { id: string } }) {
                 <FaPlus />
               </Button>
             </p>
-            <Button className="bg-[#292929]">Agregar al carrito</Button>
+            <Button
+              className="bg-[#292929]"
+              onClick={() => {
+                addToCart(producto);
+              }}
+            >
+              Agregar al carrito
+            </Button>
           </div>
 
           <Button className="mt-5 max-w-[195px]">Comprar ahora</Button>

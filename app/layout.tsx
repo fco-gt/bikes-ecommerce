@@ -51,10 +51,10 @@ export default function RootLayout({
           biker.variable
         )}
       >
-        <header>
-          <HeaderNav />
-        </header>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <header>
+            <HeaderNav />
+          </header>
           <div className="relative flex flex-col h-screen">
             <main className="container mx-auto max-w-7xl pt-16 px-5 flex-grow">
               {children}

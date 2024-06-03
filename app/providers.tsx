@@ -7,6 +7,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 
 import { FiltersProvider } from "@/context/filters";
+import { CartProvider } from "@/context/cart";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -19,7 +20,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider {...themeProps}>
-        <FiltersProvider>{children}</FiltersProvider>
+        <CartProvider>
+          <FiltersProvider>{children}</FiltersProvider>
+        </CartProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );

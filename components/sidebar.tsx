@@ -13,8 +13,8 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { useFilters } from "@/hooks/useFilter";
 
+import { useFilters } from "@/hooks/useFilter";
 import { Filters } from "@/types/filters";
 
 export default function Sidebar() {
