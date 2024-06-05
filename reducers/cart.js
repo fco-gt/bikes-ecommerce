@@ -1,5 +1,5 @@
 export const cartInitialState =
-  JSON.parse(window.localStorage.getItem("cart")) || [];
+  typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem("cart")) || [] : [];
 
 const ACTION_CART_TYPES = {
   ADD_TO_CART: "ADD_TO_CART",
@@ -8,7 +8,9 @@ const ACTION_CART_TYPES = {
 };
 
 export const updateLocalStorage = (state) => {
-  window.localStorage.setItem("cart", JSON.stringify(state));
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem("cart", JSON.stringify(state));
+  }
 };
 
 export const cartReducer = (state, action) => {
@@ -48,7 +50,8 @@ export const cartReducer = (state, action) => {
     }
 
     case ACTION_CART_TYPES.CLEAR_CART: {
-      return cartInitialState;
+      updateLocalStorage([])
+      return [];
     }
   }
 
