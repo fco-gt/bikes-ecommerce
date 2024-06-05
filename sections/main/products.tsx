@@ -47,7 +47,10 @@ export default function Products() {
           </CardFooter>
         </Card>
 
-        <Card className="py-5" isPressable>
+        <Card
+          className="py-5 transition hover:scale-105 hover:brightness-125"
+          isPressable
+        >
           <CardBody className="overflow-visible py-2">
             <Image
               alt="Card Image"
@@ -60,7 +63,10 @@ export default function Products() {
           </CardFooter>
         </Card>
 
-        <Card className="py-5" isPressable>
+        <Card
+          className="py-5 transition hover:scale-105 hover:brightness-125"
+          isPressable
+        >
           <CardBody className="overflow-visible py-2">
             <Image
               alt="Card Image"
