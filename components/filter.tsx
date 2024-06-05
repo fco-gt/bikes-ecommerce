@@ -1,17 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownSection,
-  DropdownTrigger,
-  Input,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 import { CiSearch } from "react-icons/ci";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 import { useFilters } from "@/hooks/useFilter";
 import { Filters } from "@/types/filters";

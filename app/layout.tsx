@@ -3,13 +3,13 @@ import { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Providers } from "./providers";
-import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import localFont from "next/font/local";
 
 import HeaderNav from "@/components/HeaderNav";
 import Footer from "@/sections/layout/footer";
+import ShopingCart from "@/components/ShopingCart";
 
 const biker = localFont({
   src: "../fonts/Biker.woff2",
@@ -56,6 +56,7 @@ export default function RootLayout({
             <HeaderNav />
           </header>
           <div className="relative flex flex-col h-screen">
+            <ShopingCart />
             <main className="container mx-auto max-w-7xl pt-16 px-5 flex-grow">
               {children}
             </main>
