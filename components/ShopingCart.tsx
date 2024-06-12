@@ -1,5 +1,5 @@
 "use client";
-import React, { useId } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { useCartComponent } from "@/hooks/useCartComponent";
 import { Button } from "@nextui-org/button";
@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/hooks/useCart";
 import { Divider, Image } from "@nextui-org/react";
 
-import { FaLongArrowAltRight, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import Link from "next/link";
 
 interface CartItemProps {
@@ -63,7 +63,7 @@ function CartItem({
           <strong>Total: {formatNumberToCLP(price * quantity)}</strong>
           <div className="flex-end">
             <Button isIconOnly variant="light" onClick={removeFromCart}>
-              {<FaTrash />}
+              <FaTrash />
             </Button>
           </div>
         </div>
@@ -76,6 +76,21 @@ function CartItem({
 export default function ShopingCart() {
   const { cart, clearCart, addToCart, removeFromCart } = useCart();
   const { cartIsOpen, openCart, closeCart } = useCartComponent();
+  const cartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+        closeCart();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeCart]);
 
   const handleButtonClick = () => {
     if (cartIsOpen) {
@@ -92,10 +107,11 @@ export default function ShopingCart() {
   );
 
   return (
-    <>
+    <div>
       <AnimatePresence mode="wait" initial={false}>
-        {!cartIsOpen && (
+        {cartIsOpen && (
           <motion.aside
+            ref={cartRef}
             initial={{ x: 500, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 500, opacity: 0 }}
@@ -108,7 +124,13 @@ export default function ShopingCart() {
             <main className="overflow-auto w-full mt-5 pb-14">
               <ul className="text-center">
                 {cart.length === 0 ? (
-                  <div className="flex flex-col">
+                  <div className="flex flex-col items-center justify-center">
+                    <Image
+                      alt="empty cart"
+                      width={250}
+                      height={250}
+                      src="/imgs/cart/empty_cart.svg"
+                    />
                     <strong className="font-biker text-[32px] font-extralight">
                       El carrito se encuentra vacío
                     </strong>
@@ -169,6 +191,6 @@ export default function ShopingCart() {
           </motion.aside>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }

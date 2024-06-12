@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [producto, setProducto] = useState<any | null>(null);
   const [selectedButton, setSelectedButton] = useState("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
@@ -135,11 +135,12 @@ export default function Page({ params }: { params: { id: string } }) {
           <div className="flex mt-5">
             <p className="flex flex-row items-center mr-5">
               <Button
+                isDisabled={count <= 1}
                 isIconOnly
                 variant="light"
                 className="mr-2"
                 onPress={() => {
-                  setCount(count + 1);
+                  setCount(count - 1);
                 }}
               >
                 <FaMinus />
@@ -150,7 +151,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 variant="light"
                 className="ml-2"
                 onPress={() => {
-                  setCount(count - 1);
+                  setCount(count + 1);
                 }}
               >
                 <FaPlus />
@@ -159,7 +160,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <Button
               className="bg-[#292929]"
               onClick={() => {
-                addToCart(producto);
+                addToCart(producto, count);
               }}
             >
               Agregar al carrito
