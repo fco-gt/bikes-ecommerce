@@ -4,10 +4,11 @@ import { cartReducer, cartInitialState } from "@/reducers/cart";
 function useCartReducer() {
   const [state, dispatch] = useReducer(cartReducer, cartInitialState);
 
-  const addToCart = (product) =>
+  const addToCart = (product, bikesToAdd = 1) =>
     dispatch({
       type: "ADD_TO_CART",
       payload: product,
+      bikesTotal: bikesToAdd,
     });
 
   const removeFromCart = (id) =>

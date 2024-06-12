@@ -1,5 +1,7 @@
 export const cartInitialState =
-  typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem("cart")) || [] : [];
+  typeof window !== "undefined"
+    ? JSON.parse(window.localStorage.getItem("cart")) || []
+    : [];
 
 const ACTION_CART_TYPES = {
   ADD_TO_CART: "ADD_TO_CART",
@@ -8,13 +10,17 @@ const ACTION_CART_TYPES = {
 };
 
 export const updateLocalStorage = (state) => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     window.localStorage.setItem("cart", JSON.stringify(state));
   }
 };
 
 export const cartReducer = (state, action) => {
-  const { type: actionType, payload: actionPayload } = action;
+  const {
+    type: actionType,
+    payload: actionPayload,
+    bikesTotal: actionBikesTotal = 1,
+  } = action;
 
   switch (actionType) {
     case ACTION_CART_TYPES.ADD_TO_CART: {
@@ -23,7 +29,7 @@ export const cartReducer = (state, action) => {
 
       if (productIndex >= 0) {
         const newCart = structuredClone(state);
-        newCart[productIndex].quantity += 1;
+        newCart[productIndex].quantity += actionBikesTotal;
         return newCart;
       }
 
@@ -31,7 +37,7 @@ export const cartReducer = (state, action) => {
         ...state,
         {
           ...actionPayload,
-          quantity: 1,
+          quantity: actionBikesTotal,
         },
       ];
 
@@ -50,7 +56,7 @@ export const cartReducer = (state, action) => {
     }
 
     case ACTION_CART_TYPES.CLEAR_CART: {
-      updateLocalStorage([])
+      updateLocalStorage([]);
       return [];
     }
   }
