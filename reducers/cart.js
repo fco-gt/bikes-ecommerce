@@ -19,7 +19,7 @@ export const cartReducer = (state, action) => {
   const {
     type: actionType,
     payload: actionPayload,
-    bikesTotal: actionBikesTotal = 1,
+    bikesTotal: actionBikesTotal,
   } = action;
 
   switch (actionType) {
@@ -48,11 +48,22 @@ export const cartReducer = (state, action) => {
 
     case ACTION_CART_TYPES.REMOVE_FROM_CART: {
       const { id } = actionPayload;
-      const newState = state.filter((item) => item.id !== id);
+      const productIndex = state.findIndex((item) => item.id === id);
 
-      updateLocalStorage(newState);
+      console.log(productIndex, state);
 
-      return newState;
+      if (productIndex >= 0) {
+        const newCart = structuredClone(state);
+        if (newCart[productIndex].quantity > 1) {
+          newCart[productIndex].quantity -= 1;
+        } else {
+          newCart.splice(productIndex, 1);
+        }
+        updateLocalStorage(newCart);
+        return newCart;
+      }
+
+      return state;
     }
 
     case ACTION_CART_TYPES.CLEAR_CART: {
