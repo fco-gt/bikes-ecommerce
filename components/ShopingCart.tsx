@@ -130,9 +130,9 @@ export default function ShopingCart() {
                       width={250}
                       height={250}
                       src="/imgs/cart/empty_cart.svg"
-                      className="max-w-sm md:max-w-full"
+                      className="max-w-[150px] md:max-w-full"
                     />
-                    <strong className="font-biker text-[32px] font-extralight">
+                    <strong className="font-biker text-[25px] md:text-[32px] font-extralight">
                       El carrito se encuentra vacío
                     </strong>
                     <Link
