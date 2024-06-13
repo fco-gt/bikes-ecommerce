@@ -115,7 +115,7 @@ export default function ShopingCart() {
             initial={{ x: 500, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 500, opacity: 0 }}
-            className="flex flex-col justify-between fixed h-full w-[350px] md:w-[500px] mw-[90%] top-0 right-0 overflow-hidden z-[9999999] bg-[#272727] shadow-md rounded-l-xl"
+            className="flex flex-col justify-between fixed h-full w-[350px] md:w-[500px] mw-[90%] top-0 right-0 overflow-hidden z-[9999999] bg-[#272727] shadow-md rounded-l-xl border border-[#383838]"
           >
             <header className="flex items-center justify-center bg-[#222222] h-20 w-full font-biker text-[32px] rounded-b-xl drop-shadow-sm">
               <h3 className="text-[#26BCC6]">Carrito de Compras</h3>
