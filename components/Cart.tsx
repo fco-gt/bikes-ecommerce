@@ -7,9 +7,7 @@ import { useCartComponent } from "@/hooks/useCartComponent";
 export function Cart() {
   const { cartIsOpen, openCart, closeCart } = useCartComponent();
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
+  const handleButtonClick = () => {
     if (cartIsOpen) {
       closeCart();
     } else {
