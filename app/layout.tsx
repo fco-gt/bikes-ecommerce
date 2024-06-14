@@ -10,6 +10,7 @@ import localFont from "next/font/local";
 import HeaderNav from "@/components/HeaderNav";
 import Footer from "@/sections/layout/footer";
 import ShopingCart from "@/components/ShopingCart";
+import ScrollButton from "@/components/ScrollButton";
 
 const biker = localFont({
   src: "../fonts/Biker.woff2",
@@ -58,6 +59,7 @@ export default function RootLayout({
           <div className="relative flex flex-col h-screen">
             <ShopingCart />
             <main className="container mx-auto max-w-7xl pt-16 px-5 flex-grow">
+              <ScrollButton />
               {children}
             </main>
             <Footer />
