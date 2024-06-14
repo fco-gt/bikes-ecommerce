@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/icons/FreyLogo.jsx", "components/breadCrums.tsx", "services/bikes.js", "context/filters.js", "hooks/useFilter.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/icons/FreyLogo.jsx", "components/breadCrums.tsx", "services/bikes.js", "context/filters.js", "hooks/useFilter.ts", "models/user.js"],
   "exclude": ["node_modules"]
 }
