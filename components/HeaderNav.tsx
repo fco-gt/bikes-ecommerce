@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -12,6 +12,10 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
+  Avatar,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
 } from "@nextui-org/react";
 import { useSession, signOut } from "next-auth/react";
 
@@ -19,22 +23,52 @@ import { Logo } from "./icons/Logo.jsx";
 import DropDownMenu from "./DropDownMenu";
 import { Cart } from "@/components/Cart";
 
+const menuItems = [
+  {
+    label: "Inicio",
+    href: "/",
+  },
+  {
+    label: "Productos",
+    href: "/productos",
+  },
+  {
+    label: "Arriendos",
+    href: "/arriendos",
+  },
+  {
+    label: "Mantencion",
+    href: "/mantencion",
+  },
+];
+
 export default function HeaderNav() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session } = useSession();
+
+  const handleMenuOpenClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleSignOutClick = async () => {
     await signOut({ callbackUrl: "/" });
   };
 
   return (
-    <Navbar shouldHideOnScroll>
-      <NavbarBrand>
-        <Logo />
-        <a className="hidden sm:flex text-[29px] font-biker" href="/">
-          Master Bikes
-        </a>
-      </NavbarBrand>
+    <Navbar shouldHideOnScroll isMenuOpen={isMenuOpen}>
+      <NavbarMenuToggle
+        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        className="sm:hidden"
+        onClick={handleMenuOpenClick}
+      />
+
       <NavbarContent className="flex gap-4" justify="end">
+        <NavbarBrand className="hidden sm:flex">
+          <Logo />
+          <a className="text-[29px] font-biker" href="/">
+            Master Bikes
+          </a>
+        </NavbarBrand>
         <NavbarItem className="hidden sm:flex">
           <Link color="foreground" href="/" className="link-hover">
             Inicio
@@ -60,16 +94,24 @@ export default function HeaderNav() {
           {session?.user ? (
             <Dropdown>
               <DropdownTrigger>
-                <User
-                  as="button"
-                  avatarProps={{
-                    isBordered: true,
-                    src: session.user?.image ?? "",
-                  }}
-                  className="transition-transform"
-                  description={session.user?.email ?? ""}
-                  name={session.user?.name ?? ""}
-                />
+                <div>
+                  <User
+                    as="button"
+                    avatarProps={{
+                      isBordered: true,
+                      src: session.user?.image ?? "",
+                    }}
+                    className="hidden md:flex transition-transform"
+                    description={session.user?.email ?? ""}
+                    name={session.user?.name ?? ""}
+                  />
+                  <Avatar
+                    isBordered
+                    color="primary"
+                    src={session.user?.image ?? ""}
+                    className="flex md:hidden"
+                  />
+                </div>
               </DropdownTrigger>
               <DropdownMenu aria-label="User Actions" variant="flat">
                 <DropdownItem key="profile" className="h-14 gap-2">
@@ -102,6 +144,22 @@ export default function HeaderNav() {
           <Cart />
         </NavbarItem>
       </NavbarContent>
+
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              className="w-full"
+              color={"foreground"}
+              href={item.href}
+              size="lg"
+              onClick={handleMenuOpenClick}
+            >
+              {item.label}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
     </Navbar>
   );
 }
