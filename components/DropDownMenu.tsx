@@ -9,6 +9,7 @@ import {
   User,
 } from "@nextui-org/react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 

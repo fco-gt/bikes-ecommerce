@@ -7,25 +7,25 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
-  Badge,
+  User,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Accordion,
-  AccordionItem,
-  Avatar,
 } from "@nextui-org/react";
+import { useSession, signOut } from "next-auth/react";
 
 import { Logo } from "./icons/Logo.jsx";
 import DropDownMenu from "./DropDownMenu";
-import { CiShoppingCart } from "react-icons/ci";
-import Image from "next/image.js";
-import { FaMinus, FaPlus } from "react-icons/fa";
 import { Cart } from "@/components/Cart";
 
 export default function HeaderNav() {
+  const { data: session } = useSession();
+
+  const handleSignOutClick = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
+
   return (
     <Navbar shouldHideOnScroll>
       <NavbarBrand>
@@ -57,7 +57,45 @@ export default function HeaderNav() {
         </NavbarItem>
 
         <NavbarItem className="ml-5 mr-5">
-          <DropDownMenu />
+          {session?.user ? (
+            <Dropdown>
+              <DropdownTrigger>
+                <User
+                  as="button"
+                  avatarProps={{
+                    isBordered: true,
+                    src: session.user?.image ?? "",
+                  }}
+                  className="transition-transform"
+                  description={session.user?.email ?? ""}
+                  name={session.user?.name ?? ""}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User Actions" variant="flat">
+                <DropdownItem key="profile" className="h-14 gap-2">
+                  <p className="font-bold">Bienvenido</p>
+                  <p className="font-bold">{session.user.name}</p>
+                </DropdownItem>
+                <DropdownItem key="settings">My Settings</DropdownItem>
+                <DropdownItem key="team_settings">Team Settings</DropdownItem>
+                <DropdownItem key="analytics">Analytics</DropdownItem>
+                <DropdownItem key="system">System</DropdownItem>
+                <DropdownItem key="configurations">Configurations</DropdownItem>
+                <DropdownItem key="help_and_feedback">
+                  Help & Feedback
+                </DropdownItem>
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  onClick={handleSignOutClick}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          ) : (
+            <DropDownMenu />
+          )}
         </NavbarItem>
 
         <NavbarItem>

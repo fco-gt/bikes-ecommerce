@@ -5,11 +5,12 @@ import { Button } from "@nextui-org/button";
 import { Image, Input, Checkbox } from "@nextui-org/react";
 import Link from "next/link";
 
-import { AiOutlineTwitter } from "react-icons/ai";
-import { BiLogoFacebook } from "react-icons/bi";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlineMailOutline } from "react-icons/md";
+import { FaFacebook, FaGoogle, FaTwitter } from "react-icons/fa";
+
+import { signIn } from "next-auth/react";
 
 export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,11 +30,16 @@ export default function Page() {
     return validateEmail(email) ? false : true;
   }, [email]);
 
-  const isInvalidPassword = useMemo(() => {
-    if (password === "") return false;
+  const handleButtonClick = async () => {
+    const res = await signIn("credentials", {
+      name: "test",
+      email,
+      password,
+      callbackUrl: "/",
+    });
 
-    return true;
-  }, [password]);
+    console.log(res);
+  };
 
   return (
     <section className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
@@ -51,20 +57,23 @@ export default function Page() {
           <Button
             isIconOnly
             className="mx-1 h-9 w-9  rounded-full bg-[#238991] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:scale-105 hover:brightness-125"
+            onClick={async () => {
+              await signIn("google", { callbackUrl: "/" });
+            }}
           >
-            <BiLogoFacebook
-              size={20}
-              className="flex justify-center items-center w-full"
-            />
+            <FaGoogle size={20} />
+          </Button>
+          <Button
+            isIconOnly
+            className="mx-1 h-9 w-9  rounded-full bg-[#238991] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:scale-105 hover:brightness-125"
+          >
+            <FaFacebook size={20} />
           </Button>
           <Button
             isIconOnly
             className="inlne-block mx-1 h-9 w-9 rounded-full bg-[#238991] uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:scale-105 hover:brightness-125"
           >
-            <AiOutlineTwitter
-              size={20}
-              className="flex justify-center items-center w-full"
-            />
+            <FaTwitter size={20} />
           </Button>
         </div>
         <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -90,11 +99,9 @@ export default function Page() {
         <Input
           isRequired
           value={password}
-          // isInvalid={isInvalidPassword}
           onValueChange={setPassword}
           type={showPassword ? "text" : "password"}
           label="Contraseña"
-          // color={isInvalidPassword ? "danger" : "success"}
           className="max-w-full"
           size="sm"
           variant="underlined"
@@ -108,7 +115,6 @@ export default function Page() {
               )}
             </Button>
           }
-          // errorMessage={isInvalidPassword && "Contraseña invalida"}
         />
         <div className="mt-4 flex justify-between font-semibold text-sm items-center">
           <Checkbox color="primary">
@@ -122,8 +128,9 @@ export default function Page() {
         </div>
         <div className="text-center md:text-left">
           <Button
+            isDisabled={isInvalidMail || password === ""}
             className="mt-4 bg-[#238991] px-5 py-2 text-white uppercase rounded text-xs tracking-wider hover:scale-105 hover:brightness-125"
-            type="submit"
+            onClick={handleButtonClick}
           >
             Iniciar Sesion
           </Button>
