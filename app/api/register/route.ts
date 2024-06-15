@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import { connect } from "@/lib/db";
 import UserModel from "@/models/user";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, password } = body;
+    const { name, secondName, email, password } = body;
+
+    console.log("body", body);
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -21,16 +22,15 @@ export async function POST(req: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         { message: "Email already registered" },
-        { status: 400 }
+        { status: 409 }
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = new UserModel({
       name,
+      secondName,
       email,
-      password: hashedPassword,
+      password,
     });
 
     await newUser.save();

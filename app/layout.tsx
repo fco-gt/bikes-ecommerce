@@ -12,6 +12,9 @@ import Footer from "@/sections/layout/footer";
 import ShopingCart from "@/components/ShopingCart";
 import ScrollButton from "@/components/ScrollButton";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const biker = localFont({
   src: "../fonts/Biker.woff2",
   display: "swap",
@@ -60,6 +63,19 @@ export default function RootLayout({
             <ShopingCart />
             <main className="container mx-auto max-w-7xl pt-16 px-5 flex-grow">
               <ScrollButton />
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+              />
+              <ToastContainer />
               {children}
             </main>
             <Footer />

@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/button";
 import { Image, Input } from "@nextui-org/react";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
+
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { BiLogoFacebook } from "react-icons/bi";
@@ -11,9 +12,14 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 export default function Page() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(""); // [1
+  const [name, setName] = useState("");
+  const [secondName, setSecondName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -53,22 +59,50 @@ export default function Page() {
       return;
     }
 
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
+    console.log(name, secondName, email, password);
+
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, secondName, email, password }),
+    });
+
+    if (response.ok) {
+      setName("");
+      setSecondName("");
+      setEmail("");
+      setPassword("");
+
+      toast("Usuario registrado correctamente.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
       });
 
-      if (!response.ok) {
-        throw new Error(await response.text());
+      router.push("/login");
+      return;
+    } else {
+      switch (response.status) {
+        case 400:
+          setError("Por favor, completa todos los campos requeridos.");
+          break;
+        case 409:
+          setError("El correo ya esta registrado.");
+          break;
+        case 500:
+          setError("Ocurrió un error en el servidor.");
+          break;
+        default:
+          setError("Ocurrió un error.");
+          break;
       }
-
-      alert("Registro exitoso. Ahora puedes iniciar sesión.");
-    } catch (error: any) {
-      setError(error.message || "Error en el registro");
     }
   };
 
@@ -124,6 +158,8 @@ export default function Page() {
             startContent={<FaRegUser size={19} />}
           />
           <Input
+            value={secondName}
+            onValueChange={setSecondName}
             type="text"
             label="Apellidos"
             className="max-w-full mb-5"
@@ -171,7 +207,7 @@ export default function Page() {
             }
           />
           {error && (
-            <div className="text-red-500 text-center mb-4">{error}</div>
+            <div className="text-red-500 text-center mt-5">{error}</div>
           )}
           <div className="text-center md:text-left">
             <Button

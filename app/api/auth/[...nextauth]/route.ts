@@ -8,6 +8,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connect } from "@/lib/db";
 import UserModel from "@/models/user";
+import { NextRequest, NextResponse } from "next/server";
 
 interface Credentials {
   email: string;
@@ -42,20 +43,40 @@ const options: NextAuthOptions = {
     }),
     CredentialsProvider({
       type: "credentials",
-      credentials: {},
-      async authorize(credentials: Record<string, any> | undefined, req) {
+      credentials: {
+        email: { label: "Correo", type: "email" },
+        password: { label: "Contraseña", type: "password" },
+      },
+      async authorize(
+        credentials: Record<string, any> | undefined,
+        res: NextRequest
+      ) {
         if (!credentials) {
-          throw new Error("No credentials provided");
+          return NextResponse.json(
+            { message: "Credenciales no proporcionadas" },
+            { status: 400 }
+          );
         }
 
         const { email, password } = credentials as Credentials;
+
         await connect();
 
         const user = await UserModel.findOne({ email });
-        if (!user) throw new Error("Correo o contraseña incorrectos");
+
+        if (!user)
+          return NextResponse.json(
+            { message: "Usuario no encontrado" },
+            { status: 404 }
+          );
 
         const passwordValid = await user.comparePassword(password);
-        if (!passwordValid) throw new Error("Correo o contraseña incorrectos");
+
+        if (!passwordValid)
+          return NextResponse.json(
+            { message: "Contraseña incorrecta" },
+            { status: 401 }
+          );
 
         return {
           name: user.name,
