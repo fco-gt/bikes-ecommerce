@@ -51,7 +51,7 @@ export default function Page({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="mt-9">
+    <div className="mt-0 md:mt-9">
       {producto && <PageBreadCrums name={producto.name} />}
 
       <Divider className="mt-5" />
@@ -112,6 +112,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <p className="text-[25px] mr-5 mt-2">Talla: </p>
             <div className="mt-2">
               <Button
+                isDisabled={producto?.age === "niño"}
                 className={`bg-[#292929] text-white p-3 rounded-md mr-5 w-[95px] transition hover:scale-105 hover:brightness-125 ${
                   selectedButton === "adulto"
                     ? "border-1 border-[#26BCC6]"
@@ -158,9 +159,11 @@ export default function Page({ params }: { params: { id: string } }) {
               </Button>
             </p>
             <Button
+              isDisabled={selectedButton === ""}
               className="bg-[#292929]"
               onClick={() => {
                 addToCart(producto, count);
+                setCount(1);
               }}
             >
               Agregar al carrito

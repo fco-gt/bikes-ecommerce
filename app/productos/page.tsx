@@ -27,7 +27,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="mt-0 md:mt-9">
+    <div>
       <section className="flex items-center justify-between">
         <div className="">
           <h3 className="text-[#26BCC6] font-semibold text-[35px]">

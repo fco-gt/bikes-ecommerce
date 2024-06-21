@@ -63,7 +63,7 @@ export default function Filter() {
           variant="bordered"
           placeholder="Ordenar por precio descendente o ascendente"
           selectedKeys={[isAscending]}
-          className="max-w-xs"
+          className="max-w-xs ml-2 md:ml-0"
           onChange={handleTypeChange}
           id={isAscending}
         >

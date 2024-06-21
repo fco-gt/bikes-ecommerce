@@ -8,7 +8,6 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connect } from "@/lib/db";
 import UserModel from "@/models/user";
-import { NextRequest, NextResponse } from "next/server";
 
 interface Credentials {
   email: string;
@@ -18,6 +17,7 @@ interface Credentials {
 interface User extends Omit<NextAuthUser, "id"> {
   role?: string;
   id: string;
+  error?: string;
 }
 
 interface Token extends JWT {
@@ -29,6 +29,7 @@ interface SessionWithRole extends Session {
   user: {
     role?: string;
     id?: string;
+    error?: string;
   } & Session["user"];
 }
 
@@ -47,15 +48,9 @@ const options: NextAuthOptions = {
         email: { label: "Correo", type: "email" },
         password: { label: "Contraseña", type: "password" },
       },
-      async authorize(
-        credentials: Record<string, any> | undefined,
-        res: NextRequest
-      ) {
+      async authorize(credentials: Record<string, any> | undefined, req) {
         if (!credentials) {
-          return NextResponse.json(
-            { message: "Credenciales no proporcionadas" },
-            { status: 400 }
-          );
+          return { error: "Credenciales no proporcionadas" } as User;
         }
 
         const { email, password } = credentials as Credentials;
@@ -64,19 +59,15 @@ const options: NextAuthOptions = {
 
         const user = await UserModel.findOne({ email });
 
-        if (!user)
-          return NextResponse.json(
-            { message: "Usuario no encontrado" },
-            { status: 404 }
-          );
+        if (!user) {
+          return { error: "Usuario no encontrado" } as User;
+        }
 
         const passwordValid = await user.comparePassword(password);
 
-        if (!passwordValid)
-          return NextResponse.json(
-            { message: "Contraseña incorrecta" },
-            { status: 401 }
-          );
+        if (!passwordValid) {
+          return { error: "Contraseña incorrecta" } as User;
+        }
 
         return {
           name: user.name,
@@ -94,6 +85,9 @@ const options: NextAuthOptions = {
         token.role = userWithRole.role;
         token.id = userWithRole.id;
       }
+      if (userWithRole?.error) {
+        token.error = userWithRole.error;
+      }
       return token;
     },
     session({ session, token }) {
@@ -104,6 +98,9 @@ const options: NextAuthOptions = {
         }
         if (typeof token.role === "string") {
           sessionWithRole.user.role = token.role;
+        }
+        if (typeof token.error === "string") {
+          sessionWithRole.user.error = token.error;
         }
       }
       return sessionWithRole;

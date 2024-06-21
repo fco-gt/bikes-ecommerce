@@ -16,6 +16,7 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const validateEmail = (value: string) =>
     value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
@@ -38,7 +39,7 @@ export default function Page() {
       callbackUrl: "/",
     });
 
-    console.log(res);
+    if (res?.error) setError(res.error);
   };
 
   return (
@@ -116,6 +117,7 @@ export default function Page() {
             </Button>
           }
         />
+        {error && <div className="text-red-500 text-center mt-5">{error}</div>}
         <div className="mt-4 flex justify-between font-semibold text-sm items-center">
           <Checkbox color="primary">
             <strong className="text-[#238991] font-normal">
