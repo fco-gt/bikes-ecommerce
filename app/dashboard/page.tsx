@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { title } from "@/components/primitives";
 
 export default function Page() {
+  const { data: session } = useSession();
   const [file, setFile] = useState<File | undefined>(undefined);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -49,6 +52,15 @@ export default function Page() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen"></div>
+    <div className="flex flex-col justify-center items-center h-screen w-screen">
+      <div className="flex flex-col mb-[25%] text-center">
+        <h2 className={title({ size: "md", color: "blue" })}>
+          Bienvenido {session?.user?.name}
+        </h2>
+        <p className="mt-5">
+          Utiliza la barra de navegacion para moverte entre las paginas
+        </p>
+      </div>
+    </div>
   );
 }
