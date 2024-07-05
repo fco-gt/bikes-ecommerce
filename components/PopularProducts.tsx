@@ -46,7 +46,7 @@ export default function PopularProducts() {
         {popularBikes.length === 0 ? (
           <p>No se han encontrado productos</p>
         ) : (
-          <article className="grid grid-cols-4 gap-5 mt-5">
+          <article className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5">
             {popularBikes.map((bike) => (
               <Card
                 key={bike.id}
