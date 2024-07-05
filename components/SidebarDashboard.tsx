@@ -29,16 +29,6 @@ export default function SidebarDashboard() {
             <span>Crear Producto</span>
           </div>
         </Link>
-        <Link href="/dashboard/edit-product">
-          <div
-            className={`flex flex-row gap-2 py-2 pl-11 hover:bg-[#272727] transition ease-in hover:translate-x-1 rounded-lg
-              ${pathname === "/dashboard/edit-product" ? "bg-[#252525]" : ""}
-              `}
-          >
-            <MdCreate size={25} />
-            <span>Editar Producto</span>
-          </div>
-        </Link>
         <Link href="/dashboard/products">
           <div
             className={`flex flex-row gap-2 py-2 pl-11 hover:bg-[#272727] transition ease-in hover:translate-x-1 rounded-lg

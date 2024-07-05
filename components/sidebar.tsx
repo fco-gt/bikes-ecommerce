@@ -81,10 +81,10 @@ export default function Sidebar() {
           onChange={handleTypeChange}
           id={categoryId}
         >
-          <SelectItem key="bicicleta de montaña" value="mountain">
+          <SelectItem key="mountain" value="mountain">
             Montaña
           </SelectItem>
-          <SelectItem key="bicicleta de paseo" value="road">
+          <SelectItem key="road" value="road">
             Paseo
           </SelectItem>
           <SelectItem key="urban" value="urban">

@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import axios from "axios";
 
@@ -7,9 +7,15 @@ import axios from "axios";
 import crud from "@/services/crud";
 
 import { MdOutlineFileDownload } from "react-icons/md";
+import { Bike } from "@/types/bikes";
+import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function Page() {
+  // Get the bike id from the URL
+  const { id } = useParams<{ id: string }>();
+
+  const [bike, setBike] = useState<Bike | null>(null);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
@@ -18,6 +24,28 @@ export default function Page() {
   const [type, setType] = useState<string>("N/A");
   const [fileName, setFileName] = useState<string>("");
   const [file, setFile] = useState<File | undefined>(undefined);
+
+  // Fetch the bike data
+  useEffect(() => {
+    crud.getProduct(id).then((response) => {
+      setBike(response.data);
+    });
+  }, [id]);
+
+  // Set the bike data to the state
+  useEffect(() => {
+    if (!bike) {
+      return;
+    }
+
+    setName(bike.name);
+    setDescription(bike.description);
+    setPrice(bike.price.toString());
+    setStock(bike.stock.toString());
+    setSize(bike.age);
+    setType(bike.category);
+    setFileName(bike.imageUrl);
+  }, [bike]);
 
   const handle = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!e.target.value) {
@@ -70,9 +98,9 @@ export default function Page() {
     formData.append("imageUrl", fileName);
 
     try {
-      const response = await crud.createProduct(formData);
+      const response = await crud.updateProduct(id, formData);
 
-      toast.success("Producto creado correctamente", {
+      toast.success("Producto actualizado correctamente", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -85,7 +113,7 @@ export default function Page() {
     } catch (error) {
       console.log(error);
 
-      toast.error("Error al crear el producto", {
+      toast.error("Error al actualizar el producto", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -96,17 +124,6 @@ export default function Page() {
         theme: "dark",
       });
     }
-  };
-
-  const handleClear = () => {
-    setName("");
-    setDescription("");
-    setPrice("");
-    setStock("");
-    setSize("N/A");
-    setType("N/A");
-    setFileName("");
-    setFile(undefined);
   };
 
   return (
@@ -228,16 +245,7 @@ export default function Page() {
             variant="bordered"
             className="w-[155px] mr-[59px]"
           >
-            Crear producto
-          </Button>
-
-          <Button
-            onClick={handleClear}
-            size="lg"
-            variant="bordered"
-            className="w-[155px]"
-          >
-            Limpiar
+            Actualizar
           </Button>
         </div>
       </div>
