@@ -13,7 +13,7 @@ export default function SidebarDashboard() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex flex-col fixed h-[90%] w-[250px] md:w-[315px] mw-[90%] bottom-0 left-0 overflow-hidden shadow-md rounded-r-xl rounded-t-xl border-t-1 border-r-1 bg-[#1A171A] border-[#5E5E5E]">
+    <aside className="hidden md:flex flex-col fixed h-[90%] w-[250px] md:w-[315px] mw-[90%] bottom-0 left-0 overflow-hidden shadow-md rounded-r-xl rounded-t-xl border-t-1 border-r-1 bg-[#1A171A] border-[#5E5E5E]">
       <div className="flex flex-row text-[25px] items-center ml-5 mt-9 gap-2">
         {<GiCardboardBoxClosed size={35} />}
         <strong>Gestión de Productos</strong>
