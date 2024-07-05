@@ -7,6 +7,7 @@ interface Bike {
   age: string;
   stock: number;
   imageUrl: string;
+  popular: boolean;
 }
 
 export type { Bike };

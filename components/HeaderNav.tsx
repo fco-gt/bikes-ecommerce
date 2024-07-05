@@ -118,20 +118,13 @@ export default function HeaderNav() {
                   <p className="font-bold">Bienvenido</p>
                   <p className="font-bold">{session.user.name}</p>
                 </DropdownItem>
-                <DropdownItem key="settings">My Settings</DropdownItem>
-                <DropdownItem key="team_settings">Team Settings</DropdownItem>
-                <DropdownItem key="analytics">Analytics</DropdownItem>
-                <DropdownItem key="system">System</DropdownItem>
-                <DropdownItem key="configurations">Configurations</DropdownItem>
-                <DropdownItem key="help_and_feedback">
-                  Help & Feedback
-                </DropdownItem>
+                <DropdownItem key="settings">Ajustes</DropdownItem>
                 <DropdownItem
                   key="logout"
                   color="danger"
                   onClick={handleSignOutClick}
                 >
-                  Log Out
+                  Cerrar Sesion
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

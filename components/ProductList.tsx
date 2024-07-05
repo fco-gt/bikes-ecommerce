@@ -52,7 +52,7 @@ export default function ProductList({ products }: { products: Bike[] }) {
                   src={bike.imageUrl}
                 ></Image>
               </CardBody>
-              <CardFooter className="text-samll flex-col justify-center">
+              <CardFooter className="flex-col justify-center">
                 <b>{bike.name}</b>
                 <p>{formatNumberToCLP(bike.price)}</p>
               </CardFooter>

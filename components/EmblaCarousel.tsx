@@ -42,9 +42,9 @@ const EmblaCarousel = () => {
                 </Button>
               </div>
 
-              <div className="flex img-container h-[550px] md:h-full">
+              <div className="flex img-container h-[350px] md:h-full">
                 <h3
-                  className={`absolute ml-[5%] mt-[55%] sm:mt[19%] md:mt-[11%] block z-[-1] rotate-[calc(35deg)] text-center text-[89px] sm:text-[100px] md:text-[135px] text-[#26BCC6] underline-offset-8 transition sm:text-2xl md:text-5xl justify-center font-biker`}
+                  className={`absolute ml-[5%] mt-[17%] sm:mt[19%] md:mt-[11%] block z-[-1] rotate-[calc(35deg)] text-center text-[89px] sm:text-[100px] md:text-[135px] text-[#26BCC6] underline-offset-8 transition sm:text-2xl md:text-5xl justify-center font-biker`}
                 >
                   {item.backText}
                 </h3>
@@ -53,6 +53,7 @@ const EmblaCarousel = () => {
                   alt={item.name}
                   width={550}
                   height={700}
+                  className="object-cover max-h-[350px] md:max-h-full"
                 />
               </div>
             </section>

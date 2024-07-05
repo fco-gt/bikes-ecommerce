@@ -12,11 +12,17 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 export default function Page() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(""); // [1
+  const [name, setName] = useState("");
+  const [secondName, setSecondName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const validateName = (value: string) => value.length > 0;
 
@@ -36,15 +42,69 @@ export default function Page() {
 
   const isInvalidMail = useMemo(() => {
     if (email === "") return false;
-
     return validateEmail(email) ? false : true;
   }, [email]);
 
   const isInvalidPassword = useMemo(() => {
     if (password === "") return false;
-
     return validatePassword(password) ? false : true;
   }, [password]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (isInvalidName || isInvalidMail || isInvalidPassword) {
+      setError("Por favor, completa todos los campos correctamente.");
+      return;
+    }
+
+    console.log(name, secondName, email, password);
+
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, secondName, email, password }),
+    });
+
+    if (response.ok) {
+      setName("");
+      setSecondName("");
+      setEmail("");
+      setPassword("");
+
+      toast("Usuario registrado correctamente.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      router.push("/login");
+      return;
+    } else {
+      switch (response.status) {
+        case 400:
+          setError("Por favor, completa todos los campos requeridos.");
+          break;
+        case 409:
+          setError("El correo ya esta registrado.");
+          break;
+        case 500:
+          setError("Ocurrió un error en el servidor.");
+          break;
+        default:
+          setError("Ocurrió un error.");
+          break;
+      }
+    }
+  };
 
   return (
     <section className="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0">
@@ -83,75 +143,81 @@ export default function Page() {
             Registrate usando tu correo
           </p>
         </div>
-        <Input
-          isRequired
-          value={name}
-          isInvalid={isInvalidName}
-          onValueChange={setName}
-          type="text"
-          label="Nombre"
-          color={isInvalidName ? "danger" : "success"}
-          className="max-w-full mb-5"
-          size="sm"
-          variant="underlined"
-          startContent={<FaRegUser size={19} />}
-        />
-        <Input
-          type="text"
-          label="Apellidos"
-          className="max-w-full mb-5"
-          size="sm"
-          variant="underlined"
-        />
-        <Input
-          isRequired
-          value={email}
-          isInvalid={isInvalidMail}
-          onValueChange={setEmail}
-          type="email"
-          label="Correo"
-          color={isInvalidMail ? "danger" : "success"}
-          className="max-w-full mb-5"
-          size="sm"
-          variant="underlined"
-          startContent={<MdOutlineMailOutline size={20} />}
-          errorMessage={isInvalidMail && "Correo invalido"}
-        />
-
-        <Input
-          isRequired
-          value={password}
-          isInvalid={isInvalidPassword}
-          onValueChange={setPassword}
-          type={showPassword ? "text" : "password"}
-          label="Contraseña"
-          color={isInvalidPassword ? "danger" : "success"}
-          className="max-w-full"
-          size="sm"
-          variant="underlined"
-          startContent={<RiLockPasswordLine size={20} />}
-          endContent={
-            <Button isIconOnly variant="light" onClick={toggleShowPassword}>
-              {showPassword ? (
-                <IoEyeOutline size={20} />
-              ) : (
-                <IoEyeOffOutline size={20} />
-              )}
+        <form onSubmit={handleSubmit}>
+          <Input
+            isRequired
+            value={name}
+            isInvalid={isInvalidName}
+            onValueChange={setName}
+            type="text"
+            label="Nombre"
+            color={isInvalidName ? "danger" : "success"}
+            className="max-w-full mb-5"
+            size="sm"
+            variant="underlined"
+            startContent={<FaRegUser size={19} />}
+          />
+          <Input
+            value={secondName}
+            onValueChange={setSecondName}
+            type="text"
+            label="Apellidos"
+            className="max-w-full mb-5"
+            size="sm"
+            variant="underlined"
+          />
+          <Input
+            isRequired
+            value={email}
+            isInvalid={isInvalidMail}
+            onValueChange={setEmail}
+            type="email"
+            label="Correo"
+            color={isInvalidMail ? "danger" : "success"}
+            className="max-w-full mb-5"
+            size="sm"
+            variant="underlined"
+            startContent={<MdOutlineMailOutline size={20} />}
+            errorMessage={isInvalidMail && "Correo invalido"}
+          />
+          <Input
+            isRequired
+            value={password}
+            isInvalid={isInvalidPassword}
+            onValueChange={setPassword}
+            type={showPassword ? "text" : "password"}
+            label="Contraseña"
+            color={isInvalidPassword ? "danger" : "success"}
+            className="max-w-full"
+            size="sm"
+            variant="underlined"
+            startContent={<RiLockPasswordLine size={20} />}
+            endContent={
+              <Button isIconOnly variant="light" onClick={toggleShowPassword}>
+                {showPassword ? (
+                  <IoEyeOutline size={20} />
+                ) : (
+                  <IoEyeOffOutline size={20} />
+                )}
+              </Button>
+            }
+            errorMessage={
+              isInvalidPassword &&
+              "La contraseña debe contener al menos 8 caracteres, una letra mayuscula, un numero y un caracter especial."
+            }
+          />
+          {error && (
+            <div className="text-red-500 text-center mt-5">{error}</div>
+          )}
+          <div className="text-center md:text-left">
+            <Button
+              className="mt-4 bg-[#238991] px-5 py-2 text-white uppercase rounded text-xs tracking-wider hover:scale-105 hover:brightness-125"
+              type="submit"
+            >
+              Registrarse
             </Button>
-          }
-          errorMessage={
-            isInvalidPassword &&
-            "La contraseña debe contener al menos 8 caracteres, una letra mayuscula, un numero y un caracter especial."
-          }
-        />
-        <div className="text-center md:text-left">
-          <Button
-            className="mt-4 bg-[#238991] px-5 py-2 text-white uppercase rounded text-xs tracking-wider hover:scale-105 hover:brightness-125"
-            type="submit"
-          >
-            Registrarse
-          </Button>
-        </div>
+          </div>
+        </form>
         <div className="mt-5 font-semibold text-sm text-slate-500 text-center md:text-left">
           ¿Ya tienes cuenta?
           <Link className="text-[#238991] ml-1" href="/login">
