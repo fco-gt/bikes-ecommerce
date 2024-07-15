@@ -1,8 +1,6 @@
 # Bikes Ecommerce
 Pagina E-Commerce
 
-# EN DESARROLLO (estimacion de 2 semanas para producto final)
-
 ## Tienda online de bicicletas.
 
 ## Tecnologias usadas:
@@ -30,3 +28,4 @@ Ejecutar en modo desarrolador mediante
 ```bash
 npm run dev
 ```
+
