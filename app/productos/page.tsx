@@ -9,22 +9,18 @@ import ProductList from "@/components/ProductList";
 import Sidebar from "@/components/sidebar";
 import Filters from "@/components/filter";
 
+// Bikes
+import { productos } from "@/config/productos-catalogo";
+
 // API
-import bikesApi from "@/services/bikes";
+// import bikesApi from "@/services/bikes";
 
 // Utils
 import { Bike } from "@/types/bikes";
 import { useFilters } from "@/hooks/useFilter";
 
 export default function Page() {
-  const [bikes, setBikes] = useState<Bike[]>([]);
   const { filterBike } = useFilters();
-
-  useEffect(() => {
-    bikesApi.getBikes().then((bikes) => {
-      setBikes(bikes.data);
-    });
-  }, []);
 
   return (
     <div>
@@ -34,7 +30,7 @@ export default function Page() {
             Bicicletas
           </h3>
           <strong className="text-[25px]">
-            {filterBike(bikes).length} Resultados
+            {filterBike(productos as Bike[]).length} Resultados
           </strong>
         </div>
 
@@ -45,7 +41,7 @@ export default function Page() {
 
       <div className="flex flex-col md:flex-row">
         <Sidebar />
-        <ProductList products={filterBike(bikes)} />
+        <ProductList products={filterBike(productos as Bike[])} />
       </div>
     </div>
   );

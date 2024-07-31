@@ -19,6 +19,7 @@ import { FaMinus } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 
+import { productos } from "@/config/productos-catalogo";
 import bikes from "@/services/bikes";
 import { Bike } from "@/types/bikes";
 import { useCart } from "@/hooks/useCart";
@@ -36,12 +37,13 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const id = parseInt(params.id);
 
+  const productFind = productos.find((p) => p.id === id);
+
   useEffect(() => {
-    bikes.getBikes().then((bike) => {
-      const producto: Bike = bike.data.find((bike: Bike) => bike.id === id);
-      setProducto(producto);
-    });
-  }, [id]);
+    if (productFind) {
+      setProducto(productFind);
+    }
+  }, [productFind]);
 
   const formatNumberToCLP = (number: number): string => {
     return new Intl.NumberFormat("es-CL", {
@@ -59,7 +61,7 @@ export default function Page({ params }: { params: { id: string } }) {
       <article className="mt-11 flex flex-col md:flex-row">
         <div className="flex-1">
           <Image
-            src={producto?.imageUrl}
+            src={`/imgs/catalog/${producto?.id}.png`}
             alt={producto?.name}
             width={500}
             height={500}
