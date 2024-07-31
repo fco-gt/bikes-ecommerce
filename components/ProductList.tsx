@@ -49,7 +49,7 @@ export default function ProductList({ products }: { products: Bike[] }) {
                   width="100%"
                   alt={bike.name}
                   className="w-[370px] object-contain h-[95px] md:h-[250px]"
-                  src={bike.imageUrl}
+                  src={`/imgs/catalog/${bike.id}.png`}
                 ></Image>
               </CardBody>
               <CardFooter className="flex-col justify-center">
